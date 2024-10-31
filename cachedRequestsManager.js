@@ -41,7 +41,7 @@ export default class CachedRequestsManager {
         return null;
     }
     static clear(model) {
-        if (url != "")
+        if (model != "")
             cachedRequests = cachedRequests.filter(cache => cache.url.toLowerCase().indexOf(model.toLowerCase()) == -1);
     }
     static flushExpired() {
@@ -58,7 +58,7 @@ export default class CachedRequestsManager {
             if (cacheFound) {
                 if (Repository.getETag(HttpContext.path.model) == cacheFound.ETag) {
                     HttpContext.response.JSON(cacheFound.content, cacheFound.ETag, true);
-                    console.log(BgCyan + FgWhite, `[Response content of request Get: ${url} retrieved from cache]`);
+                    console.log(BgCyan + FgWhite, `[Response content of request Get: ${HttpContext.req.url} retrieved from cache]`);
                     return true;
                 } else {
                     CachedRequestsManager.clear(HttpContext.path.model);
