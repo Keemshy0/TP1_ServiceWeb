@@ -1,0 +1,56 @@
+
+.PostRow {
+    padding: 8px;
+    padding-bottom: 0px;
+   /* scroll-snap-align: start;*/
+}
+
+.PostContainer {
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    align-items: top;
+    background-color: #eee;
+    border-radius: 6px;
+}
+
+.PostContainer .cmdIcon {
+    display: none;
+}
+
+.PostContainer:hover .cmdIcon {
+    display: block;
+}
+
+.PostLayout {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 10px;
+    gap: 8px;
+    align-items: center;
+}
+
+.Post {
+    display: grid;
+    grid-template-columns: 30px auto;
+}
+
+.PostTitle {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: black;
+}
+
+.PostCategory {
+    color: dodgerblue !important;
+}
+
+.PostCommandPanel {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.PostdeleteForm {
+    margin: 20px;
+}

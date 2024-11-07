@@ -11,17 +11,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/app.css">    
-    <link rel="stylesheet" href="css/bookmarksUI.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/postsUI.css">
 </head>
+
 <body>
     <div id="main">
         <div id="header">
-            <img src="post_logo.png" class="appLogo" alt="" title="Gestionnaire de nouvelles">
-            <h4 id="actionTitle">Liste des favoris</h4>
-            <i class="cmdIcon fa fa-plus" id="createBookmark" title="Ajouter une nouvelle"></i>
+            <img src="bookmark_logo.png" class="appLogo" alt="" title="Gestionnaire de favoris">
+            <h4 id="actionTitle">Liste de nouvelles</h4>
+            <i class="cmdIcon fa fa-plus" id="createBookmark" title="Ajouter un favori"></i>
             <i class="cmdIcon fa fa-times" id="abort" title="Annuler"></i>
-            <div class="dropdown ms-auto">
+            <div class="dropdown ms-auto" >
                 <div data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="cmdIcon fa fa-ellipsis-vertical"></i>
                 </div>
@@ -33,6 +34,45 @@
             </div>
         </div>
         <div id="content">
+            <div id="scrollPanel">
+                <div id="itemsPanel">
+                    <div class="PostRow" id="sample">
+                        <div class="PostContainer noselect">
+                            <div class="PostLayout">
+                                <div class="Post">
+                                    <a href="" target="_blank">sample </a>
+                                    <span class="PostkTitle">sample</span>
+                                </div>
+                                <span class="PostCategory">sample Category</span>
+                            </div>
+                            <div class="PostCommandPanel">
+                                <span class="editCmd cmdIcon fa fa-pencil" editPostId="${Post.Id}"
+                                    title="Modifier ${Post.Title}"></span>
+                                <span class="deleteCmd cmdIcon fa fa-trash" deletePostId="${Post.Id}"
+                                    title="Effacer ${Post.Title}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="forms">
+                <div id="postForm"></div>
+                <div id="errorContainer" class="errorContainer"></div>
+                <div id="aboutContainer" class="aboutContainer">
+                    <h2>Gestionnaire de nouvelles</h2>
+                    <hr>
+                    <p>
+                        Petite application de gestion de nouvelles à titre de démonstration
+                        d'interface utilisateur monopage réactive.
+                    </p>
+                    <p>
+                        Auteur: Nicolas Chourot, Mathias Simoneau et Kemy Jean-Charles
+                    </p>
+                    <p>
+                        Collège Lionel-Groulx, automne 2024
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -40,6 +80,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <script src="js/Bookmarks_API.js"></script>
+    <script src="js/pageManager.js"></script>
     <script src="js/validation.js"></script>
     <script src="js/appUI.js"></script>
 
