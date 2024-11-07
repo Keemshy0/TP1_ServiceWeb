@@ -31,7 +31,7 @@
 
 .Post {
     display: grid;
-    grid-template-columns: 30px auto;
+    grid-template-rows: 30px auto auto;
 }
 
 .PostTitle {
@@ -41,7 +41,8 @@
 }
 
 .PostCategory {
-    color: dodgerblue !important;
+    color: rgb(1, 97, 194) !important;
+    font-weight: 1000;
 }
 
 .PostCommandPanel {
@@ -49,6 +50,9 @@
     flex-direction: row;
     justify-content: flex-end;
     gap: 8px;
+}
+.PostImg{
+    
 }
 
 .PostdeleteForm {
