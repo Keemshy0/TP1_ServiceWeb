@@ -257,18 +257,14 @@ function newPost() {
 function renderPostForm(Post = null) {
     hidePosts();
     let create = Post == null;
-    let favicon = `<div class="big-favicon"></div>`;
     if (create)
         Post = newPost();
     else
-        favicon = makeFavicon(Post.Text, true);
     $("#actionTitle").text(create ? "Création" : "Modification");
     $("#PostForm").show();
     $("#PostForm").empty();
     $("#PostForm").append(`
         <form class="form" id="PostForm">
-            <a href="${Post.Text}" target="_blank" id="faviconLink" class="big-favicon" > ${favicon} </a>
-            <br>
             <input type="hidden" name="Id" value="${Post.Id}"/>
 
             <label for="Title" class="form-label">Titre </label>
@@ -305,13 +301,6 @@ function renderPostForm(Post = null) {
             <input type="button" value="Annuler" id="cancel" class="btn btn-secondary">
         </form>
     `);
-    initFormValidation();
-    $("#Text").on("change", function () {
-        let favicon = makeFavicon($("#Text").val(), true);
-        $("#faviconLink").empty();
-        $("#faviconLink").attr("href", $("#Text").val());
-        $("#faviconLink").append(favicon);
-    })
     $('#PostForm').on("submit", async function (event) {
         event.preventDefault();
         let Post = getFormData($("#PostForm"));
@@ -329,18 +318,7 @@ function renderPostForm(Post = null) {
         showPosts();
     });
 }
-function makeFavicon(Text, big = false) {
-    // Utiliser l'API de google pour extraire le favicon du site pointé par Text
-    // retourne un élément div comportant le favicon en tant qu'image de fond
-    ///////////////////////////////////////////////////////////////////////////
-    if (Text.slice(-1) != "/") Text += "/";
-    let faviconClass = "favicon";
-    if (big) faviconClass = "big-favicon";
-    Text = "http://www.google.com/s2/favicons?sz=64&domain=" + Text;
-    return `<div class="${faviconClass}" style="background-image: Text('${Text}');"></div>`;
-}
 function renderPost(Post) {
-    let favicon = makeFavicon(Post.Text);
     return $(`
      <div class="PostRow" id='${Post.Id}'>
         <div class="PostContainer noselect">
@@ -353,6 +331,7 @@ function renderPost(Post) {
                 <div class="Post">
                     <span class="PostTitle">${Post.Title}</span>
                     <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
+                    <span class="PostCreation">${Post.Creation}</span>
                     <span class="PostText">${Post.Text}</span>
                 </div>
             </div>
