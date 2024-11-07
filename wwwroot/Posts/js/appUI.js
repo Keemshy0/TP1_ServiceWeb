@@ -347,8 +347,8 @@ function renderPost(Post) {
             <div class="PostLayout">
                 <span class="PostCategory">${Post.Category}</span>
                 <div class="PostCommandPanel">
-                    <span class="editCmd cmdIcon fa fa-pencil" editPostId="${Post.Id}" title="Modifier ${Post.Title}"></span>
-                    <span class="deleteCmd cmdIcon fa fa-trash" deletePostId="${Post.Id}" title="Effacer ${Post.Title}"></span>
+                    <span class="editCmd cmdIcon fa fa-square-pen" editPostId="${Post.Id}" title="Modifier ${Post.Title}"></span>
+                    <span class="deleteCmd cmdIcon fa fa-rectangle-xmark" deletePostId="${Post.Id}" title="Effacer ${Post.Title}"></span>
                 </div>
                 <div class="Post">
                     <span class="PostTitle">${Post.Title}</span>
