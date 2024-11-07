@@ -351,7 +351,6 @@ function renderPost(Post) {
                     <span class="deleteCmd cmdIcon fa fa-trash" deletePostId="${Post.Id}" title="Effacer ${Post.Title}"></span>
                 </div>
                 <div class="Post">
-                    <a href="${Post.Text}" target="_blank"> ${favicon} </a>
                     <span class="PostTitle">${Post.Title}</span>
                     <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
                     <span class="PostText">${Post.Text}</span>
