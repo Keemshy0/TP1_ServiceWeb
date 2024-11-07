@@ -46,9 +46,9 @@ export default class Controller {
     put(data) {
         //if (!isNaN(this.HttpContext.path.id)) {
         if (this.HttpContext.path.id !== '') {
-            this.repository.update(this.HttpContext.path.id, data);
+            data = this.repository.update(this.HttpContext.path.id, data);
             if (this.repository.model.state.isValid) {
-                this.HttpContext.response.ok();
+                this.HttpContext.response.accepted(data);
             } else {
                 if (this.repository.model.state.notFound) {
                     this.HttpContext.response.notFound(this.repository.model.state.errors);

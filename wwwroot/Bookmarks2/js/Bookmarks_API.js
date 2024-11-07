@@ -31,8 +31,22 @@ class Bookmarks_API {
         return new Promise(resolve => {
             $.ajax({
                 url: this.API_URL() + (id != null ? "/" + id : ""),
-                complete: data => {  resolve({ETag:data.getResponseHeader('ETag'), data:data.responseJSON }); },
+                complete: data => { resolve({ ETag: data.getResponseHeader('ETag'), data: data.responseJSON }); },
                 error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
+            });
+        });
+    }
+    static async GetQuery(queryString = "") {
+        Bookmarks_API.initHttpState();
+        return new Promise(resolve => {
+            $.ajax({
+                url: this.API_URL() + queryString,
+                complete: data => {
+                    resolve({ ETag: data.getResponseHeader('ETag'), data: data.responseJSON });
+                },
+                error: (xhr) => {
+                    Bookmarks_API.setHttpErrorState(xhr); resolve(null);
+                }
             });
         });
     }
@@ -40,23 +54,27 @@ class Bookmarks_API {
         Bookmarks_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
-                url: create ? this.API_URL() :  this.API_URL() + "/" + data.Id,
+                url: create ? this.API_URL() : this.API_URL() + "/" + data.Id,
                 type: create ? "POST" : "PUT",
                 contentType: 'application/json',
                 data: JSON.stringify(data),
-                success: (/*data*/) => { resolve(true); },
+                success: (data) => { resolve(data); },
                 error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
             });
         });
     }
     static async Delete(id) {
-        Bookmarks_API.initHttpState();
         return new Promise(resolve => {
             $.ajax({
                 url: this.API_URL() + "/" + id,
                 type: "DELETE",
-                success: () => { resolve(true); },
-                error: (xhr) => { Bookmarks_API.setHttpErrorState(xhr); resolve(null); }
+                complete: () => {
+                    Bookmarks_API.initHttpState();
+                    resolve(true);
+                },
+                error: (xhr) => {
+                    Bookmarks_API.setHttpErrorState(xhr); resolve(null);
+                }
             });
         });
     }

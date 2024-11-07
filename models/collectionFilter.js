@@ -13,6 +13,7 @@ export default class collectionFilter {
         this.collection = collection;
         this.sortFields = [];
         this.searchKeys = [];
+        this.keywords = [];
         this.fields = [];
         this.ranges = [];
         this.filteredCollection = [];
@@ -50,6 +51,7 @@ export default class collectionFilter {
                             case "limit": instance.limit = utilities.tryParseInt(paramValue); break;
                             case "offset": instance.offset = utilities.tryParseInt(paramValue); break;
                             case "fields": instance.fields = paramValue.split(','); break;
+                            case "keywords": instance.keywords = paramValue.split(','); break;
                             default:
                                 let normalizedParamName = instance.normalizeName(paramName);
                                 if (normalizedParamName.indexOf(".start") > -1) {
@@ -63,7 +65,7 @@ export default class collectionFilter {
                                 }
                         }
                     } else
-                    instance.error(`${paramName} parameter has a undefined value.`);
+                        instance.error(`${paramName} parameter has a undefined value.`);
                 });
             }
             catch (error) { this.error(`null parameter.`); }
@@ -112,7 +114,6 @@ export default class collectionFilter {
         }
 
         this.validFieldName("sort param", sortField);
-
 
         if (parts.length > 1) {
             if (parts[1].toLowerCase() !== 'desc') {
@@ -244,6 +245,29 @@ export default class collectionFilter {
             filteredCollection = [...collection];
         return filteredCollection;
     }
+    findByKeywords(collection) {
+        if (this.keywords.length > 0 && this.model != null) {
+            let filteredCollection = [];
+            for (let item of collection) {
+                let record = "";
+                for (let field of this.model.fields) {
+                    if (field.type == "string")
+                        record += item[field.name].toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') + " ";
+                }
+                let keep = true;
+                for (let keyword of this.keywords) {
+                    if (record.indexOf(keyword.toLocaleLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')) == -1) {
+                        keep = false;
+                        break;
+                    }
+                }
+                if (keep)
+                    filteredCollection.push(item);
+            }
+            return filteredCollection;
+        } else
+            return collection;
+    }
     compareNum(x, y) {
         if (x === y) return 0;
         else if (x < y) return -1;
@@ -311,6 +335,7 @@ export default class collectionFilter {
     get() {
         if (this.valid()) {
             this.filteredCollection = this.findByKeys(this.collection);
+            this.filteredCollection = this.findByKeywords(this.filteredCollection);
             if (this.fields.length > 0) {
                 this.filteredCollection = this.keepFields(this.filteredCollection);
                 this.prevSortFields = [...this.sortFields];
