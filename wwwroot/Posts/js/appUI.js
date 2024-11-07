@@ -345,15 +345,17 @@ function renderPost(Post) {
      <div class="PostRow" id='${Post.Id}'>
         <div class="PostContainer noselect">
             <div class="PostLayout">
+                <span class="PostCategory">${Post.Category}</span>
+                <div class="PostCommandPanel">
+                    <span class="editCmd cmdIcon fa fa-pencil" editPostId="${Post.Id}" title="Modifier ${Post.Title}"></span>
+                    <span class="deleteCmd cmdIcon fa fa-trash" deletePostId="${Post.Id}" title="Effacer ${Post.Title}"></span>
+                </div>
                 <div class="Post">
                     <a href="${Post.Text}" target="_blank"> ${favicon} </a>
                     <span class="PostTitle">${Post.Title}</span>
+                    <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
+                    <span class="PostText">${Post.Text}</span>
                 </div>
-                <span class="PostCategory">${Post.Category}</span>
-            </div>
-            <div class="PostCommandPanel">
-                <span class="editCmd cmdIcon fa fa-pencil" editPostId="${Post.Id}" title="Modifier ${Post.Title}"></span>
-                <span class="deleteCmd cmdIcon fa fa-trash" deletePostId="${Post.Id}" title="Effacer ${Post.Title}"></span>
             </div>
         </div>
     </div>           
