@@ -320,6 +320,27 @@ function renderPostForm(Post = null) {
     });
 }
 function renderPost(Post) {
+    let date = new Date(Post.Creation);
+    let dateString ="";
+    let jourSemaine = date.getDay()
+    const JourDeLaSemaine = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
+    const Mois = ["Janvier", "Février", "Mars", "Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"]
+    for(let i = 0; i < JourDeLaSemaine.length; i++){
+        if(jourSemaine == i){
+            dateString += JourDeLaSemaine[i] + " le ";
+        }
+    }
+    dateString += date.getDate() + " ";
+    let month = date.getMonth()
+    for(let i = 0; i < Mois.length; i++){
+        if(month == i){
+            dateString += Mois[i] + " ";
+        }
+    }
+    dateString += date.getFullYear() + " @ ";
+    dateString += date.getHours() + ":"
+    dateString += (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":"
+    dateString += date.getSeconds() + ""
     return $(`
      <div class="PostRow" id='${Post.Id}'>
         <div class="PostContainer noselect">
@@ -332,7 +353,7 @@ function renderPost(Post) {
                 <div class="Post">
                     <span class="PostTitle">${Post.Title}</span>
                     <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
-                    <span class="PostCreation">${Post.Creation}</span>
+                    <span class="PostCreation">${dateString}</span>
                     <span class="PostText">${Post.Text}</span>
                 </div>
             </div>
