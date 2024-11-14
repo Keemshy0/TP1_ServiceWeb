@@ -26,5 +26,12 @@
         "Phone": "(450) 430-3120",
         "Email": "Patrice.Roy@clg.qc.ca",
         "Avatar": "a634d710-46c0-11ee-9c7d-4dfffb69e19c.png"
+    },
+    {
+        "Id": "940c8870-a2be-11ef-9c8d-0333423ee72f",
+        "Name": "Mathias Simoneau",
+        "Phone": "(514) 553-9479",
+        "Email": "admin@clg.qc.ca",
+        "Avatar": "94108010-a2be-11ef-9c8d-0333423ee72f.png"
     }
 ]

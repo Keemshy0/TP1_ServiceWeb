@@ -250,8 +250,8 @@ function newPost() {
     Post.Title = "";
     Post.Text = "";
     Post.Category = "";
-    Post.Image = "";
-    Post.Creation = new Date();
+    Post.Image = "images/no-news.png";
+    Post.Creation = Date.now();
     return Post;
 }
 function renderPostForm(Post = null) {
@@ -259,14 +259,12 @@ function renderPostForm(Post = null) {
     let create = Post == null;
     if (create) {
         Post = newPost();
-        Post.Image = "images/no-news.png";
     }
-    else
-        $("#actionTitle").text(create ? "Création" : "Modification");
+    $("#actionTitle").text(create ? "Création" : "Modification");
     $("#PostForm").show();
     $("#PostForm").empty();
     $("#PostForm").append(`
-        <form class="form" id="PostForm">
+        <form class="form" id="postForm">
             <input type="hidden" name="Id" value="${Post.Id}"/>
 
             <label for="Title" class="form-label">Titre </label>
@@ -311,9 +309,10 @@ function renderPostForm(Post = null) {
             <input type="button" value="Annuler" id="cancel" class="btn btn-secondary">
         </form>
     `);
-    $('#PostForm').on("submit", async function (event) {
+    initImageUploaders();
+    $('#postForm').on("submit", async function (event) {
         event.preventDefault();
-        let Post = getFormData($("#PostForm"));
+        let Post = getFormData($("#postForm"));
         Post = await Posts_API.Save(Post, create);
         if (!Posts_API.error) {
             showPosts();
