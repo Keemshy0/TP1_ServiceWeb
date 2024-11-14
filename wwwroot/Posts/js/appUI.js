@@ -251,16 +251,18 @@ function newPost() {
     Post.Text = "";
     Post.Category = "";
     Post.Image = "";
-    Post.Creation = Date.now();
+    Post.Creation = new Date();
     return Post;
 }
 function renderPostForm(Post = null) {
     hidePosts();
     let create = Post == null;
-    if (create)
+    if (create) {
         Post = newPost();
+        Post.Image = "images/no-news.png";
+    }
     else
-    $("#actionTitle").text(create ? "Création" : "Modification");
+        $("#actionTitle").text(create ? "Création" : "Modification");
     $("#PostForm").show();
     $("#PostForm").empty();
     $("#PostForm").append(`
@@ -296,8 +298,15 @@ function renderPostForm(Post = null) {
                 required
                 value="${Post.Category}"
             />
+            <label class="form-label">Image </label>
+            <div   class='imageUploader' 
+                   newImage='${create}' 
+                   controlId='Image' 
+                   imageSrc='${Post.Image}' 
+                   waitingImage="Loading_icon.gif">
+            </div>
             <input type="hidden" name="Cration" value="${Post.Creation}"/>
-            <br>
+            <hr>
             <input type="submit" value="Enregistrer" id="savePost" class="btn btn-primary">
             <input type="button" value="Annuler" id="cancel" class="btn btn-secondary">
         </form>
@@ -361,3 +370,20 @@ function renderPost(Post) {
     </div>           
     `);
 }
+function convertToFrenchDate(numeric_date) {
+    date = new Date(numeric_date);
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    var opt_weekday = { weekday: 'long' };
+    var weekday = toTitleCase(date.toLocaleDateString("fr-FR", opt_weekday));
+
+    function toTitleCase(str) {
+        return str.replace(
+            /\w\S*/g,
+            function (txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            }
+        );
+    }
+    return weekday + " le " + date.toLocaleDateString("fr-FR", options) + " @ " + date.toLocaleTimeString("fr-FR");
+}
+
