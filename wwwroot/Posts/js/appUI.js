@@ -251,7 +251,7 @@ function newPost() {
     Post.Text = "";
     Post.Category = "";
     Post.Image = "";
-    Post.Creation = 0;
+    Post.Creation = Date.now();
     return Post;
 }
 function renderPostForm(Post = null) {
@@ -296,6 +296,7 @@ function renderPostForm(Post = null) {
                 required
                 value="${Post.Category}"
             />
+            <input type="hidden" name="Cration" value="${Post.Creation}"/>
             <br>
             <input type="submit" value="Enregistrer" id="savePost" class="btn btn-primary">
             <input type="button" value="Annuler" id="cancel" class="btn btn-secondary">
