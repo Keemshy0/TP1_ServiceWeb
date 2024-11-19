@@ -83,11 +83,11 @@
 }
 .smallText{
     display: -webkit-box;
-    -webkit-line-clamp: 5; /* Limite à 5 lignes, ajustez selon vos besoins */
+    -webkit-line-clamp: 5; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100%; /* Limite la largeur à celle de la boîte */
+    max-width: 100%; 
 }
 
 .PostdeleteForm {
