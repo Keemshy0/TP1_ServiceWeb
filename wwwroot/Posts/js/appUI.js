@@ -321,14 +321,14 @@ function renderPostForm(Post = null) {
                 value="${Post.Title}"
             />
             <label for="Text" class="form-label">Text </label>
-            <input
+            <TextArea
                 class="form-control Text"
                 name="Text"
                 id="Text"
                 placeholder="Text"
+                rows="10"
                 required
-                value="${Post.Text}" 
-            />
+            >${Post.Text}</TextArea>
             <label for="Category" class="form-label">Catégorie </label>
             <input 
                 class="form-control"
