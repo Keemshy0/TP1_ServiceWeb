@@ -62,6 +62,9 @@ function showPosts() {
     $('#aboutContainer').hide();
     $("#search").hide();
     $("#createPost").show();
+    if(search != ""){
+        $("#search").show();
+    }
     hold_Periodic_Refresh = false;
 }
 function hidePosts() {
@@ -69,6 +72,7 @@ function hidePosts() {
     $("#createPost").hide();
     $("#search").hide();
     $("#abort").show();
+    search = "";
     hold_Periodic_Refresh = true;
 }
 function start_Periodic_Refresh() {
