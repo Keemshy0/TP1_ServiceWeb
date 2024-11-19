@@ -303,13 +303,14 @@ function renderPostForm(Post = null) {
                    imageSrc='${Post.Image}' 
                    waitingImage="Loading_icon.gif">
             </div>
-            <input type="hidden" name="Cration" value="${Post.Creation}"/>
+            <input type="hidden" name="Creation" value="${Post.Creation}"/>
             <hr>
             <input type="submit" value="Enregistrer" id="savePost" class="btn btn-primary">
             <input type="button" value="Annuler" id="cancel" class="btn btn-secondary">
         </form>
     `);
     initImageUploaders();
+    initFormValidation();
     $('#postForm').on("submit", async function (event) {
         event.preventDefault();
         let Post = getFormData($("#postForm"));
@@ -362,7 +363,8 @@ function renderPost(Post) {
                     <span class="PostTitle">${Post.Title}</span>
                     <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
                     <span class="PostCreation">${dateString}</span>
-                    <span class="PostText">${Post.Text}</span>
+                    <span id="text_${Post.Id}" class="PostText smallText">${Post.Text}</span>
+                    <button id="bouton_${Post.Id}" class="buttonAffichage" onclick="renderText('${Post.Id}')">Afficher plus</button>
                 </div>
             </div>
         </div>
@@ -385,4 +387,19 @@ function convertToFrenchDate(numeric_date) {
     }
     return weekday + " le " + date.toLocaleDateString("fr-FR", options) + " @ " + date.toLocaleTimeString("fr-FR");
 }
-
+function renderText(id){
+    console.log("Click");
+    var text = document.getElementById(`text_${id}`);
+    var button = document.getElementById(`bouton_${id}`);
+    //console.log(button.textContent);
+    if(button.textContent == "Afficher plus"){
+        //console.log(text)
+        text.classList.remove("smallText");
+        button.textContent = "Afficher moins";
+    }
+    else{
+        //console.log(text)
+        text.classList.add("smallText");
+        button.textContent = "Afficher plus";
+    }
+}

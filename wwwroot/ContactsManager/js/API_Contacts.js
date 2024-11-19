@@ -25,6 +25,7 @@ function API_GetContact(contactId) {
 }
 function API_SaveContact(contact, create) {
     return new Promise(resolve => {
+        console.log(contact);
         $.ajax({
             url: create ? API_URL :  API_URL + "/" + contact.Id,
             type: create ? "POST" : "PUT",

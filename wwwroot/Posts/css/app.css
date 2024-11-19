@@ -195,3 +195,6 @@ label {
 .selected {
     background-color: #ccc;
 }
+.hidden {
+    display: none;
+}
