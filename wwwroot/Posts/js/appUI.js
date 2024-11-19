@@ -188,17 +188,15 @@ async function renderDeletePostForm(id) {
     let response = await Posts_API.Get(id)
     if (!Posts_API.error) {
         let Post = response.data;
-        let favicon = makeFavicon(Post.Text);
         if (Post !== null) {
-            $("#PostForm").append(`
+        $("#PostForm").append(`
         <div class="PostdeleteForm">
-            <h4>Effacer le favori suivant?</h4>
+            <h4>Effacer la nouvelle suivante?</h4>
             <br>
             <div class="PostRow" id=${Post.Id}">
                 <div class="PostContainer noselect">
                     <div class="PostLayout">
                         <div class="Post">
-                            <a href="${Post.Text}" target="_blank"> ${favicon} </a>
                             <span class="PostTitle">${Post.Title}</span>
                         </div>
                         <span class="PostCategory">${Post.Category}</span>
