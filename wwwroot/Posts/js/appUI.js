@@ -1,6 +1,7 @@
 const periodicRefreshPeriod = 10;
 let categories = [];
 let selectedCategory = "";
+let search = "";
 let currentETag = "";
 let hold_Periodic_Refresh = false;
 let pageManager;
@@ -34,11 +35,24 @@ async function Init_UI() {
     $('#abort').on("click", async function () {
         showPosts()
     });
+    $('#searchCmd').on("click", function () {
+        renderSearch();
+    });
     $('#aboutCmd').on("click", function () {
         renderAbout();
     });
+    $("#searchKey").on("change", () => {
+        doSearch();
+    })
+    $('#doSearch').on('click', () => {
+        doSearch();
+    })
     showPosts();
     start_Periodic_Refresh();
+}
+function doSearch() {
+    search = $("#searchKey").val().replace(' ', ',');
+    pageManager.reset();
 }
 function showPosts() {
     $("#actionTitle").text("Liste des favoris");
@@ -46,12 +60,14 @@ function showPosts() {
     $('#abort').hide();
     $('#PostForm').hide();
     $('#aboutContainer').hide();
+    $("#search").hide();
     $("#createPost").show();
     hold_Periodic_Refresh = false;
 }
 function hidePosts() {
     $("#scrollPanel").hide();
     $("#createPost").hide();
+    $("#search").hide();
     $("#abort").show();
     hold_Periodic_Refresh = true;
 }
@@ -73,6 +89,10 @@ function renderAbout() {
     $("#actionTitle").text("À propos...");
     $("#aboutContainer").show();
 }
+function renderSearch() {
+    showPosts();
+    $("#search").show();
+}
 function updateDropDownMenu() {
     let DDMenu = $("#DDMenu");
     let selectClass = selectedCategory === "" ? "fa-check" : "fa-fw";
@@ -82,6 +102,11 @@ function updateDropDownMenu() {
             <i class="menuIcon fa ${selectClass} mx-2"></i> Toutes les catégories
         </div>
         `));
+    DDMenu.append($(`
+            <div class="dropdown-item menuItemLayout" id="searchCmd">
+                <i class="menuIcon fa fa-search mx-2"></i> Rechercher par mot
+            </div>
+            `));
     DDMenu.append($(`<div class="dropdown-divider"></div>`));
     categories.forEach(category => {
         selectClass = selectedCategory === category ? "fa-check" : "fa-fw";
@@ -99,6 +124,9 @@ function updateDropDownMenu() {
         `));
     $('#aboutCmd').on("click", function () {
         renderAbout();
+    });
+    $('#searchCmd').on("click", function () {
+        renderSearch();
     });
     $('#allCatCmd').on("click", function () {
         showPosts();
@@ -135,7 +163,17 @@ async function renderPosts(queryString) {
     let response = await Posts_API.Get(queryString);
     if (!Posts_API.error) {
         currentETag = response.ETag;
-        let Posts = response.data;
+        let Posts = [];
+        if(search != ""){
+            response.data.forEach((post) => {
+                if(post.Text.includes(search) || post.Title.includes(search)){
+                    Posts.push(post);
+                }
+            });
+        }
+        else{
+            Posts = response.data;
+        }
         if (Posts.length > 0) {
             Posts.forEach(Post => {
                 $("#itemsPanel").append(renderPost(Post));
