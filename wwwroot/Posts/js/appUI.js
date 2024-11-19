@@ -189,17 +189,19 @@ async function renderDeletePostForm(id) {
     if (!Posts_API.error) {
         let Post = response.data;
         if (Post !== null) {
-        $("#PostForm").append(`
+            $("#PostForm").append(`
         <div class="PostdeleteForm">
             <h4>Effacer la nouvelle suivante?</h4>
             <br>
             <div class="PostRow" id=${Post.Id}">
                 <div class="PostContainer noselect">
                     <div class="PostLayout">
+                        <span class="PostCategory">${Post.Category}</span>
                         <div class="Post">
                             <span class="PostTitle">${Post.Title}</span>
+                            <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
+                            <span class="PostText"><span id="text_${Post.Id}" class="smallText">${Post.Text}</span> <a id="bouton_${Post.Id}" class="buttonAffichage" onclick="renderText('${Post.Id}')">Afficher plus</a></span>
                         </div>
-                        <span class="PostCategory">${Post.Category}</span>
                     </div>
                     <div class="PostCommandPanel">
                         <span class="editCmd cmdIcon fa fa-pencil" editPostId="${Post.Id}" title="Modifier ${Post.Title}"></span>
@@ -267,7 +269,7 @@ function renderPostForm(Post = null) {
 
             <label for="Title" class="form-label">Titre </label>
             <input 
-                class="form-control Alpha"
+                class="form-control"
                 name="Title" 
                 id="Title" 
                 placeholder="Titre"
@@ -328,26 +330,32 @@ function renderPostForm(Post = null) {
 }
 function renderPost(Post) {
     let date = new Date(Post.Creation);
-    let dateString ="";
+    let dateString = "";
     let jourSemaine = date.getDay()
-    const JourDeLaSemaine = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
-    const Mois = ["Janvier", "Février", "Mars", "Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"]
-    for(let i = 0; i < JourDeLaSemaine.length; i++){
-        if(jourSemaine == i){
+    const JourDeLaSemaine = ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"];
+    const Mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"]
+    for (let i = 0; i < JourDeLaSemaine.length; i++) {
+        if (jourSemaine == i) {
             dateString += JourDeLaSemaine[i] + " le ";
         }
     }
     dateString += date.getDate() + " ";
     let month = date.getMonth()
-    for(let i = 0; i < Mois.length; i++){
-        if(month == i){
+    for (let i = 0; i < Mois.length; i++) {
+        if (month == i) {
             dateString += Mois[i] + " ";
         }
     }
     dateString += date.getFullYear() + " @ ";
     dateString += date.getHours() + ":"
     dateString += (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":"
-    dateString += date.getSeconds() + ""
+    dateString += (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + ""
+
+    const maxTextLength = 325
+    let afficherPlus = ""
+    if(Post.Text.length > maxTextLength){
+        afficherPlus = `<a id="bouton_${Post.Id}" class="buttonAffichage" onclick="renderText('${Post.Id}')">Afficher plus</a>`;
+    }
     return $(`
      <div class="PostRow" id='${Post.Id}'>
         <div class="PostContainer noselect">
@@ -361,8 +369,7 @@ function renderPost(Post) {
                     <span class="PostTitle">${Post.Title}</span>
                     <img src="${Post.Image}" alt="${Post.Title}" class="PostImg">
                     <span class="PostCreation">${dateString}</span>
-                    <span id="text_${Post.Id}" class="PostText smallText">${Post.Text}</span>
-                    <button id="bouton_${Post.Id}" class="buttonAffichage" onclick="renderText('${Post.Id}')">Afficher plus</button>
+                    <span class="PostText"><span id="text_${Post.Id}" class="smallText">${Post.Text}</span> ${afficherPlus}</span>
                 </div>
             </div>
         </div>
@@ -385,17 +392,17 @@ function convertToFrenchDate(numeric_date) {
     }
     return weekday + " le " + date.toLocaleDateString("fr-FR", options) + " @ " + date.toLocaleTimeString("fr-FR");
 }
-function renderText(id){
+function renderText(id) {
     console.log("Click");
     var text = document.getElementById(`text_${id}`);
     var button = document.getElementById(`bouton_${id}`);
     //console.log(button.textContent);
-    if(button.textContent == "Afficher plus"){
+    if (button.textContent == "Afficher plus") {
         //console.log(text)
         text.classList.remove("smallText");
         button.textContent = "Afficher moins";
     }
-    else{
+    else {
         //console.log(text)
         text.classList.add("smallText");
         button.textContent = "Afficher plus";
