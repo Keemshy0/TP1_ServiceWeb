@@ -62,6 +62,9 @@ function showPosts() {
     $('#aboutContainer').hide();
     $("#search").hide();
     $("#createPost").show();
+    if(search != ""){
+        $("#search").show();
+    }
     hold_Periodic_Refresh = false;
 }
 function hidePosts() {
@@ -69,6 +72,7 @@ function hidePosts() {
     $("#createPost").hide();
     $("#search").hide();
     $("#abort").show();
+    search = "";
     hold_Periodic_Refresh = true;
 }
 function start_Periodic_Refresh() {
@@ -317,14 +321,14 @@ function renderPostForm(Post = null) {
                 value="${Post.Title}"
             />
             <label for="Text" class="form-label">Text </label>
-            <input
+            <TextArea
                 class="form-control Text"
                 name="Text"
                 id="Text"
                 placeholder="Text"
+                rows="10"
                 required
-                value="${Post.Text}" 
-            />
+            >${Post.Text}</TextArea>
             <label for="Category" class="form-label">Catégorie </label>
             <input 
                 class="form-control"
