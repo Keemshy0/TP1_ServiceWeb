@@ -69,6 +69,7 @@
     grid-row: 2/3;
     grid-column: 1/1;
     width: 475px;
+    max-height: 500px;
 }
 .PostCreation{
     grid-row: 3/4;
