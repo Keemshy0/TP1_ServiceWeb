@@ -389,7 +389,7 @@ function renderPost(Post) {
             dateString += Mois[i] + " ";
         }
     }
-    dateString += date.getFullYear() + " @ ";
+    dateString += date.getFullYear() + " - ";
     dateString += date.getHours() + ":"
     dateString += (date.getMinutes() < 10 ? '0' : '') + date.getMinutes() + ":"
     dateString += (date.getSeconds() < 10 ? '0' : '') + date.getSeconds() + ""
