@@ -179,6 +179,7 @@ async function renderPosts(queryString) {
             Posts = response.data;
         }
         if (Posts.length > 0) {
+            Posts.sort((a, b) => b.Creation - a.Creation);
             Posts.forEach(Post => {
                 $("#itemsPanel").append(renderPost(Post));
             });
